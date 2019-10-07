@@ -7,7 +7,7 @@ public abstract class Player implements Comparable<Player> {
 
 
     public Player(String name){
-        super();
+        this();
         this.name = name;
     }
 
