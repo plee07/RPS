@@ -10,7 +10,7 @@
 
 **1) Use classes to remove repetitive parts of code, and create an abstract Player class to manage the state of the player (if they won or lost, how many points they have, what move they made).**
 
-Application has been developed using Object Oriented Principles, refer to the class diagram above.
+Application has been developed using OOP, refer to the class diagram above.
 
 
 **2) Handle invalid user input.**
@@ -19,11 +19,11 @@ A static Validator class was used to handle all input validation.
 
 **3) Handle incorrect capitalization of otherwise valid user input ("rock," "Rock," "RoCk," "ROCK," and more).**
 
-Refer to the Validator.moveInputValidator() method.
+All validators will use equalsIgnoreCase()
 
 **4) Each class (including a Player class) should have methods associated with it and be instantiated as an object (as opposed to a singleton or an interface).**
 
-All methods are associated with a class. The GameManager is the primary class running the game, the main method will only call GameManager.game(), which will use various helper methods to run the game.
+All methods are associated with a class. The GameManager is the primary class running the game, the main method will instantiate a GameManager object and call game(), which will use various helper methods to run the game.
 
 **5) Use public, private, and static variables, methods, and members within each class appropriately.**
 
@@ -31,7 +31,7 @@ Refer to the class diagram above.
 
 **6) Incorporate exception handling to make sure your game crashes gracefully if it receives bad input.**
 
-try-catch-finally was used to determine if the game history list was null prior to printing out the result or adding to it. If the list was null, the catch block will initialize a new list.
+try-catch-finally was used to determine if the game history list was null prior to printing out the result or adding to it. If the list was null, the catch block will instantiate a new list.
 
 **7) Get standard input with Java using a Scanner, or use Processing to get mouse, keyboard, or other input.**
 
