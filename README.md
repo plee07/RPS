@@ -10,7 +10,7 @@
 
 **1) Use classes to remove repetitive parts of code, and create an abstract Player class to manage the state of the player (if they won or lost, how many points they have, what move they made).**
 
-Application has been developed using Object Oriented Principles, refer to the class diagram above.
+Application has been developed using OOP, refer to the class diagram above.
 
 
 **2) Handle invalid user input.**
@@ -23,7 +23,7 @@ Refer to the Validator.moveInputValidator() method.
 
 **4) Each class (including a Player class) should have methods associated with it and be instantiated as an object (as opposed to a singleton or an interface).**
 
-All methods are associated with a class. The GameManager is the primary class running the game, the main method will only call GameManager.game(), which will use various helper methods to run the game.
+All methods are associated with a class. The GameManager is the primary class running the game, the main method will intantiate a GameManager object and call the game() method, which will use various helper methods to run the game.
 
 **5) Use public, private, and static variables, methods, and members within each class appropriately.**
 
