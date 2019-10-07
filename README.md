@@ -19,7 +19,7 @@ A static Validator class was used to handle all input validation.
 
 **3) Handle incorrect capitalization of otherwise valid user input ("rock," "Rock," "RoCk," "ROCK," and more).**
 
-Refer to the Validator.moveInputValidator() method.
+equalsIgnoreCase() was used on all validation.
 
 **4) Each class (including a Player class) should have methods associated with it and be instantiated as an object (as opposed to a singleton or an interface).**
 
