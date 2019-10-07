@@ -15,13 +15,11 @@ public class GameManager {
     int roundsPlayed;
     Scanner scanner;
 
-
     public GameManager(){
         this.player1 = new Human("Player One");
         this.player2 = null;
         this.roundsPlayed = 0;
         this.scanner = new Scanner(System.in);
-        this.history = new ArrayList<Result>();
     }
 
     /**
@@ -35,6 +33,7 @@ public class GameManager {
             menuInput = mainMenu();
 
             if(menuInput.equalsIgnoreCase("quit")){
+                quitGame();
                 break;
             }
             else if(menuInput.equalsIgnoreCase("play")){
@@ -50,11 +49,11 @@ public class GameManager {
     /**
      * Load the main menu where user will select which option to pick
      * Continuously reload until a valid input is received
-     * @return the user input
+     * @return a valid menu input
      */
     private String mainMenu(){
         String userInput = "";
-        while(!isValidInput("MENU", userInput)){
+        while(!Validator.menuInputValidator(userInput)){
             System.out.println("MAIN MENU\n========");
             System.out.println("1. Type 'play' to play.");
             System.out.println("2. Type 'history' to view your game history.");
@@ -66,44 +65,14 @@ public class GameManager {
         return userInput;
     }
 
-    /**
-     * Helper method to check the validity of various user inputs
-     * @param type - the type of user input we can to check, validity check will differ by types ("MENU", "OPPONENT", "MOVE")
-     * @param input - user input from menu option
-     * @return true if valid option, false otherwise
-     */
-     //TODO make the valid type an ENUM
-    public static boolean isValidInput(String type,String input){
-        if(type.equals("MENU")){
-            return (
-                    input.equalsIgnoreCase("play") ||
-                    input.equalsIgnoreCase("history") ||
-                    input.equalsIgnoreCase("quit")
-                    );
-        }
-        else if(type.equals("OPPONENT")){
-            return (input.equalsIgnoreCase("player") || input.equalsIgnoreCase("computer"));
-        }
-        else if(type.equals("MOVE")){
-            return ( input.equalsIgnoreCase("Rock") ||
-                            input.equalsIgnoreCase("Paper") ||
-                            input.equalsIgnoreCase("Scissor")
-                    );
-        }
-        else{
-            System.out.println("Incorrect Type Entered");
-            return false;
-        }
-    }
-
-    /**
+     /**
      * Ask the user to choose computer or player as an opponent
      * Continuously reload until a valid input is given
      */
     // TODO: currently assigning a generic name for players - update to ask for player name
     private void assignPlayers(){
         String userInput = "";
-        while(!isValidInput("OPPONENT", userInput)){
+        while(!Validator.opponentInputValidator(userInput)){
             System.out.println("1. Type 'player' to vs another player");
             System.out.println("2. Type 'Computer' to vs a Computer\n");
             System.out.print("Enter here: ");
@@ -134,25 +103,42 @@ public class GameManager {
 
     /**
      * Print out history of games played during session
-     * Made use of stream and lambda expression
+     * Made use of stream and lambda expression, and try-catch-finally
      */
     private void viewHistory(){
-        System.out.println("HISTORY\n========");
-        List<String> printResult = history.stream()
-                .map(res -> {
-                    if(res.isTie()){
-                        return String.format("TIE. %s played %s and %s played %s",
-                                res.getWinner(), res.getWinnerMove(), res.getLoser(), res.getLoserMove());
-                    }
-                    else{
-                        return String.format("%s WINS. %s played %s and %s played %s",
-                                res.getWinner(), res.getWinner(), res.getWinnerMove(), res.getLoser(), res.getLoserMove());
-                    }
-                })
-                .collect(Collectors.toList());
+        try{
+            if(this.history == null) throw new NullPointerException();
+        }catch(NullPointerException e){
+            this.history = new ArrayList<Result>();
+        }finally{
+            System.out.println("HISTORY\n========");
+        }
 
-        printResult.forEach(result-> System.out.println(result));
+        if(this.history.size() != 0){
+            List<String> printResult = history.stream()
+                    .map(res -> {
+                        if(res.isTie()){
+                            return String.format("TIE. %s played %s and %s played %s",
+                                    res.getWinner(), res.getWinnerMove(), res.getLoser(), res.getLoserMove());
+                        }
+                        else{
+                            return String.format("%s WINS. %s played %s and %s played %s",
+                                    res.getWinner(), res.getWinner(), res.getWinnerMove(), res.getLoser(), res.getLoserMove());
+                        }
+                    })
+                    .collect(Collectors.toList());
+
+            printResult.forEach(result-> System.out.println(result));
+        }
         System.out.println();
+    }
+
+    /**
+     * Wrap up any necessary tasks needed
+     */
+    private void quitGame(){
+        scanner.close();
+
     }
 
     /**
@@ -165,6 +151,13 @@ public class GameManager {
         String res = "";
         Date date = new Date();
         //player 1 wins
+
+        try{
+            if(this.history == null) throw new NullPointerException();
+        }catch(NullPointerException e) {
+            this.history = new ArrayList<Result>();
+        }
+
         if(result > 0){
             res = player1.getName() + " wins!";
             history.add(new Result(player1.getName(),player1.getPlayed(), player2.getName(),player2.getPlayed(),date, false));

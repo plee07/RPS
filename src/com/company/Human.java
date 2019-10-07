@@ -17,7 +17,7 @@ public class Human extends Player{
         super.setPlayed("");
 
         // loop until a valid move is given
-        while(!GameManager.isValidInput("MOVE", super.getPlayed())){
+        while(!Validator.moveInputValidator(super.getPlayed())){
             System.out.print(super.getName() + ", pick a move (Rock, Paper, Scissor): ");
             super.setPlayed(scanner.nextLine());
         }
