@@ -40,3 +40,7 @@ Scanner was used to retrieve user input and scanner was closed once the user inp
 **8) Use arrays or array lists to store game history (if applicable).**
 
 ArrayList was utilized to keep track of the game history.
+
+**Bonus**
+
+Added unit testing around Validation class.
